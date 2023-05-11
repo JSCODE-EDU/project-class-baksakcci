@@ -19,27 +19,27 @@ public class BoardController {
 
     @PostMapping("")
     public ResponseEntity createBoard(@RequestBody BoardRequestDto boardRequestDto) {
-        Board board = boardService.create(boardRequestDto.getTitle(), boardRequestDto.getContent());
-        return ResponseEntity.status(201).body(board);
+        return ResponseEntity.status(201)
+                .body(boardService.create(boardRequestDto.getTitle(), boardRequestDto.getContent()));
     }
 
     @GetMapping("")
     public ResponseEntity findAll() {
-        List<BoardResponseDto> boards = boardService.findAll();
-        return ResponseEntity.ok().body(boards);
+        return ResponseEntity.ok()
+                .body(boardService.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity findBoard(@PathVariable("id") Long id) {
-        Board board = boardService.findById(id);
-        return ResponseEntity.ok().body(board);
+        return ResponseEntity.ok()
+                .body(boardService.findById(id));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity updateBoard(@PathVariable("id") Long id,
                                       @RequestBody BoardRequestDto boardRequestDto) {
-        Board board = boardService.update(id, boardRequestDto.getTitle(), boardRequestDto.getContent());
-        return ResponseEntity.ok().body(board);
+        return ResponseEntity.ok()
+                .body(boardService.update(id, boardRequestDto.getTitle(), boardRequestDto.getContent()));
     }
 
     @DeleteMapping("/{id}")

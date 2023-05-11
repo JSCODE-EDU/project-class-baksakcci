@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 public class Board {
     @Id
@@ -20,9 +19,19 @@ public class Board {
     private String title;
 
     @Column(nullable = false)
+    @Lob
     private String content;
 
     public Board(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public static Board createBoard(String title, String content) {
+        return new Board(title, content);
+    }
+
+    public void updateTitleAndContent(String title, String content) {
         this.title = title;
         this.content = content;
     }

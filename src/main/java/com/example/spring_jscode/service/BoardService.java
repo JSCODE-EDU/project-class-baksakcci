@@ -17,9 +17,9 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public Board create(String title, String content) {
-        Board board = boardRepository.save(new Board(title, content));
-        return board;
+    public BoardResponseDto create(String title, String content) {
+        boardRepository.save(Board.createBoard(title, content));
+        return BoardResponseDto.fromEntity(title, content);
     }
 
     @Transactional(readOnly = true)
@@ -27,25 +27,22 @@ public class BoardService {
         List<Board> boardList = boardRepository.findAll();
         List<BoardResponseDto> responseBoardList = new ArrayList<>();
         for(Board b : boardList) {
-            BoardResponseDto dto = new BoardResponseDto();
-            dto.changeBoardToDto(b.getTitle(), b.getContent());
-            responseBoardList.add(dto);
+            responseBoardList.add(BoardResponseDto.fromEntity(b.getTitle(), b.getContent()));
         }
         return responseBoardList;
     }
 
     @Transactional(readOnly = true)
-    public Board findById(Long id) {
+    public BoardResponseDto findById(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(NullPointerException::new);
-        return board;
+        return BoardResponseDto.fromEntity(board.getTitle(), board.getContent());
     }
 
-    public Board update(Long id, String title, String content) {
+    public BoardResponseDto update(Long id, String title, String content) {
         Board board = boardRepository.findById(id).orElseThrow(NullPointerException::new);
-        board.setTitle(title);
-        board.setContent(content);
-        boardRepository.save(board);
-        return board;
+        board.updateTitleAndContent(title, content);
+        // boardRepository.save(board);
+        return BoardResponseDto.fromEntity(title, content);
     }
 
     public void delete(Long id) {
