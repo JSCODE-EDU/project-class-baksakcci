@@ -47,4 +47,14 @@ public class BoardService {
     public void delete(Long id) {
         boardRepository.deleteById(id);
     }
+
+    @Transactional(readOnly = true)
+    public List<BoardResponseDto> findBoardsBySearchingKeyword(String keyword) {
+        List<Board> boardList = boardRepository.findBoardByTitleContaining(keyword);
+        List<BoardResponseDto> responseBoardList = new ArrayList<>();
+        for(Board b : boardList) {
+            responseBoardList.add(BoardResponseDto.fromEntity(b.getId(), b.getTitle(), b.getContent(), b.getCreateDate()));
+        }
+        return responseBoardList;
+    }
 }

@@ -43,4 +43,10 @@ public class BoardController {
         boardService.delete(id);
         return ResponseEntity.ok("성공적으로 제거했습니다.");
     }
+
+    @GetMapping("/search")
+    public ResponseEntity searchBoards(@RequestParam("keyword") String keyword) {
+        return ResponseEntity.ok()
+                .body(boardService.findBoardsBySearchingKeyword(keyword));
+    }
 }
