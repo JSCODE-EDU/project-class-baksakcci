@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BoardResponseDto {
@@ -12,9 +14,10 @@ public class BoardResponseDto {
     private Long id;
     private String title;
     private String content;
+    private LocalDateTime createDate;
 
     // 매개변수 Board -> from, of => 변수명 수정
-    public static BoardResponseDto fromEntity(Long id, String title, String content) {
-        return new BoardResponseDto(id, title, content);
+    public static BoardResponseDto fromEntity(Long id, String title, String content, LocalDateTime createDate) {
+        return new BoardResponseDto(id, title, content, createDate);
     }
 }
