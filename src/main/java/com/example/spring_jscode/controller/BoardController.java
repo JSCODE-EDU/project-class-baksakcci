@@ -20,9 +20,9 @@ public class BoardController {
     }
 
     @GetMapping("")
-    public ResponseEntity findAll() {
+    public ResponseEntity findAll(@RequestParam("page") Integer pageSize) {
         return ResponseEntity.ok()
-                .body(boardService.findAll());
+                .body(boardService.findAll(pageSize));
     }
 
     @GetMapping("/{id}")
@@ -45,8 +45,9 @@ public class BoardController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity searchBoards(@RequestParam("keyword") String keyword) {
+    public ResponseEntity searchBoards(@RequestParam("keyword") String keyword,
+                                       @RequestParam("page") Integer pageSize) {
         return ResponseEntity.ok()
-                .body(boardService.findBoardsBySearchingKeyword(keyword));
+                .body(boardService.findBoardsBySearchingKeyword(keyword, pageSize));
     }
 }

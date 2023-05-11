@@ -1,9 +1,12 @@
 package com.example.spring_jscode.service;
 
+import com.example.spring_jscode.dto.BoardPageResponseDto;
 import com.example.spring_jscode.dto.BoardResponseDto;
 import com.example.spring_jscode.entity.Board;
 import com.example.spring_jscode.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,13 +25,13 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<BoardResponseDto> findAll() {
-        List<Board> boardList = boardRepository.findAllByOrderByCreateDateDesc();
+    public BoardPageResponseDto findAll(Integer pageSize) {
+        Page<Board> boardPage = boardRepository.findAllByOrderByCreateDateDesc(PageRequest.of(pageSize, 100));
         List<BoardResponseDto> responseBoardList = new ArrayList<>();
-        for(Board b : boardList) {
+        for(Board b : boardPage.getContent()) {
             responseBoardList.add(BoardResponseDto.fromEntity(b.getId(), b.getTitle(), b.getContent(), b.getCreateDate()));
         }
-        return responseBoardList;
+        return BoardPageResponseDto.toDtoFromBoardResponseDto(responseBoardList, boardPage.getTotalPages(), boardPage.getNumber());
     }
 
     @Transactional(readOnly = true)
@@ -49,12 +52,12 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<BoardResponseDto> findBoardsBySearchingKeyword(String keyword) {
-        List<Board> boardList = boardRepository.findBoardByTitleContainingOrderByCreateDateDesc(keyword);
+    public BoardPageResponseDto findBoardsBySearchingKeyword(String keyword, Integer pageSize) {
+        Page<Board> boardPage = boardRepository.findBoardByTitleContainingOrderByCreateDateDesc(keyword, PageRequest.of(pageSize, 100));
         List<BoardResponseDto> responseBoardList = new ArrayList<>();
-        for(Board b : boardList) {
+        for(Board b : boardPage.getContent()) {
             responseBoardList.add(BoardResponseDto.fromEntity(b.getId(), b.getTitle(), b.getContent(), b.getCreateDate()));
         }
-        return responseBoardList;
+        return BoardPageResponseDto.toDtoFromBoardResponseDto(responseBoardList, boardPage.getTotalPages(), boardPage.getNumber());
     }
 }
