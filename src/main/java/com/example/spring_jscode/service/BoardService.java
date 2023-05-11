@@ -3,7 +3,6 @@ package com.example.spring_jscode.service;
 import com.example.spring_jscode.dto.BoardResponseDto;
 import com.example.spring_jscode.entity.Board;
 import com.example.spring_jscode.repository.BoardRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

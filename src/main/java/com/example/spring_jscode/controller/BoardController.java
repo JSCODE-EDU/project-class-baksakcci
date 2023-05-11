@@ -1,14 +1,10 @@
 package com.example.spring_jscode.controller;
 
 import com.example.spring_jscode.dto.BoardRequestDto;
-import com.example.spring_jscode.dto.BoardResponseDto;
-import com.example.spring_jscode.entity.Board;
 import com.example.spring_jscode.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
