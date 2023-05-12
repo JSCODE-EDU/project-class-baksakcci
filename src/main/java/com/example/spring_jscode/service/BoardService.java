@@ -26,7 +26,7 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public BoardPageResponseDto findAll(Integer pageSize) {
-        Page<Board> boardPage = boardRepository.findAllByOrderByCreateDateDesc(PageRequest.of(pageSize, 100));
+        Page<Board> boardPage = boardRepository.findAllByOrderByCreateAtDesc(PageRequest.of(pageSize, 100));
         List<BoardResponseDto> responseBoardList = new ArrayList<>();
         for(Board b : boardPage.getContent()) {
             responseBoardList.add(BoardResponseDto.fromEntity(b.getId(), b.getTitle(), b.getContent(), b.getCreateAt()));
@@ -53,7 +53,7 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public BoardPageResponseDto findBoardsBySearchingKeyword(String keyword, Integer pageSize) {
-        Page<Board> boardPage = boardRepository.findBoardByTitleContainingOrderByCreateDateDesc(keyword, PageRequest.of(pageSize, 100));
+        Page<Board> boardPage = boardRepository.findBoardByTitleContainingOrderByCreateAtDesc(keyword, PageRequest.of(pageSize, 100));
         List<BoardResponseDto> responseBoardList = new ArrayList<>();
         for(Board b : boardPage.getContent()) {
             responseBoardList.add(BoardResponseDto.fromEntity(b.getId(), b.getTitle(), b.getContent(), b.getCreateAt()));

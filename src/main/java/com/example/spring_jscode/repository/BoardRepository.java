@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
-    Page<Board> findAllByOrderByCreateDateDesc(Pageable pageable);
-    Page<Board> findBoardByTitleContainingOrderByCreateDateDesc(String keyword, Pageable pageable);
+    Page<Board> findAllByOrderByCreateAtDesc(Pageable pageable);
+    Page<Board> findBoardByTitleContainingOrderByCreateAtDesc(String keyword, Pageable pageable);
 }
