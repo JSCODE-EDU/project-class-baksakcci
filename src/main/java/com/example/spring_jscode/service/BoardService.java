@@ -21,7 +21,7 @@ public class BoardService {
 
     public BoardResponseDto create(String title, String content) {
         Board board = boardRepository.save(Board.createBoard(title, content));
-        return BoardResponseDto.fromEntity(board.getId(), title, content, board.getCreateDate());
+        return BoardResponseDto.fromEntity(board.getId(), title, content, board.getCreateAt());
     }
 
     @Transactional(readOnly = true)
@@ -29,7 +29,7 @@ public class BoardService {
         Page<Board> boardPage = boardRepository.findAllByOrderByCreateDateDesc(PageRequest.of(pageSize, 100));
         List<BoardResponseDto> responseBoardList = new ArrayList<>();
         for(Board b : boardPage.getContent()) {
-            responseBoardList.add(BoardResponseDto.fromEntity(b.getId(), b.getTitle(), b.getContent(), b.getCreateDate()));
+            responseBoardList.add(BoardResponseDto.fromEntity(b.getId(), b.getTitle(), b.getContent(), b.getCreateAt()));
         }
         return BoardPageResponseDto.toDtoFromBoardResponseDto(responseBoardList, boardPage.getTotalPages(), boardPage.getNumber());
     }
@@ -37,14 +37,14 @@ public class BoardService {
     @Transactional(readOnly = true)
     public BoardResponseDto findById(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(NullPointerException::new);
-        return BoardResponseDto.fromEntity(board.getId(), board.getTitle(), board.getContent(), board.getCreateDate());
+        return BoardResponseDto.fromEntity(board.getId(), board.getTitle(), board.getContent(), board.getCreateAt());
     }
 
     public BoardResponseDto update(Long id, String title, String content) {
         Board board = boardRepository.findById(id).orElseThrow(NullPointerException::new);
         board.updateTitleAndContent(title, content);
         boardRepository.save(board);
-        return BoardResponseDto.fromEntity(id, title, content, board.getCreateDate());
+        return BoardResponseDto.fromEntity(id, title, content, board.getCreateAt());
     }
 
     public void delete(Long id) {
@@ -56,7 +56,7 @@ public class BoardService {
         Page<Board> boardPage = boardRepository.findBoardByTitleContainingOrderByCreateDateDesc(keyword, PageRequest.of(pageSize, 100));
         List<BoardResponseDto> responseBoardList = new ArrayList<>();
         for(Board b : boardPage.getContent()) {
-            responseBoardList.add(BoardResponseDto.fromEntity(b.getId(), b.getTitle(), b.getContent(), b.getCreateDate()));
+            responseBoardList.add(BoardResponseDto.fromEntity(b.getId(), b.getTitle(), b.getContent(), b.getCreateAt()));
         }
         return BoardPageResponseDto.toDtoFromBoardResponseDto(responseBoardList, boardPage.getTotalPages(), boardPage.getNumber());
     }

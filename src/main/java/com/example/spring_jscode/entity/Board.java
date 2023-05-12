@@ -21,12 +21,12 @@ public class Board {
     @Lob
     private String content;
 
-    @Column(name = "create_date")
-    private LocalDateTime createDate;
+    @Column(name = "create_at")
+    private LocalDateTime createAt;
 
     @PrePersist
     protected void onCreate() {
-        createDate = LocalDateTime.now();
+        createAt = LocalDateTime.now();
     }
 
     public Board(String title, String content) {
