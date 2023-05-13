@@ -20,7 +20,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     public BoardResponseDto create(String title, String content) {
-        Board board = boardRepository.save(Board.createBoard(title, content));
+        Board board = boardRepository.save(Board.create(title, content));
         return BoardResponseDto.fromEntity(board.getId(), title, content, board.getCreateAt());
     }
 
@@ -42,7 +42,7 @@ public class BoardService {
 
     public BoardResponseDto update(Long id, String title, String content) {
         Board board = boardRepository.findById(id).orElseThrow(NullPointerException::new);
-        board.updateTitleAndContent(title, content);
+        board.update(title, content);
         boardRepository.save(board);
         return BoardResponseDto.fromEntity(id, title, content, board.getCreateAt());
     }
