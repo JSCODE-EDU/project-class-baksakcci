@@ -1,5 +1,6 @@
 package com.example.spring_jscode.entity;
 
+import com.example.spring_jscode.exception.ValidateLengthException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,7 +36,7 @@ public class Board {
     }
 
     public static Board create(String title, String content) {
-        
+
         return new Board(title, content);
     }
 
@@ -57,7 +58,7 @@ public class Board {
 
     private void validateTitleAndContentLength(String title, String content) {
         if(title.length() > 15) {
-            throw new IllegalArgumentException("제목은 1글자 이상 15글자 이하로 작성해주세요");
+            throw new ValidateLengthException("제목은 1글자 이상 15글자 이하로 작성해주세요");
         } else if(content.length() > 1000) {
             throw new IllegalArgumentException("내용은 1글자 이상 1000글자 이하로 작성해주세요");
         }
