@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -36,12 +37,12 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public BoardResponseDto findById(Long id) {
-        Board board = boardRepository.findById(id).orElseThrow(NullPointerException::new);
+        Board board = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("게시판을 찾을 수 없습니다."));
         return BoardResponseDto.fromEntity(board.getId(), board.getTitle(), board.getContent(), board.getCreateAt());
     }
 
     public BoardResponseDto update(Long id, String title, String content) {
-        Board board = boardRepository.findById(id).orElseThrow(NullPointerException::new);
+        Board board = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("게시판을 찾을 수 없습니다."));
         board.update(title, content);
         boardRepository.save(board);
         return BoardResponseDto.fromEntity(id, title, content, board.getCreateAt());

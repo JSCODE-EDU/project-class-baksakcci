@@ -1,6 +1,5 @@
 package com.example.spring_jscode.entity;
 
-import com.example.spring_jscode.exception.ValidateLengthException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -36,7 +35,6 @@ public class Board {
     }
 
     public static Board create(String title, String content) {
-
         return new Board(title, content);
     }
 
