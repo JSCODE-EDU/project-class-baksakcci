@@ -35,18 +35,21 @@ public class Board {
     }
 
     public static Board create(String title, String content) {
+        Board.isEmptyTitleAndContent(title, content);
+        Board.isBlankTitle(title);
+        Board.validateTitleAndContentLength(title, content);
         return new Board(title, content);
     }
 
     public void update(String title, String content) {
-        isEmptyTitleAndContent(title, content);
-        isBlankTitle(title);
-        validateTitleAndContentLength(title, content);
+        Board.isEmptyTitleAndContent(title, content);
+        Board.isBlankTitle(title);
+        Board.validateTitleAndContentLength(title, content);
         this.title = title;
         this.content = content;
     }
 
-    private void isEmptyTitleAndContent(String title, String content) {
+    private static void isEmptyTitleAndContent(String title, String content) {
         if(title == null || title.length() == 0) {
             throw new IllegalArgumentException("제목을 무조껀 입력해야 합니다.");
         } else if(content == null || content.length() == 0) {
@@ -54,7 +57,7 @@ public class Board {
         }
     }
 
-    private void validateTitleAndContentLength(String title, String content) {
+    private static void validateTitleAndContentLength(String title, String content) {
         if(title.length() > 15) {
             throw new IllegalArgumentException("제목은 1글자 이상 15글자 이하로 작성해주세요");
         } else if(content.length() > 1000) {
@@ -62,7 +65,7 @@ public class Board {
         }
     }
 
-    private void isBlankTitle(String title) {
+    private static void isBlankTitle(String title) {
         if(title == null || title.trim().length() == 0) {
             throw new IllegalArgumentException("제목에 공백만 올 수 없습니다.");
         }
