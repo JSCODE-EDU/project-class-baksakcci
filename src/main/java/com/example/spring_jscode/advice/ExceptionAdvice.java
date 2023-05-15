@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ExceptionAdvice {
-    @ExceptionHandler(ValidateLengthException.class)
-    public ResponseEntity validateLengthExceptionAdvice(ValidateLengthException e) {
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity IllegalArgumentExceptionHandler(IllegalArgumentException e) {
         ErrorResponseDto errorResponse = ErrorResponseDto.of("404", e.getMessage());
         return ResponseEntity.status(404)
                 .body(errorResponse);
