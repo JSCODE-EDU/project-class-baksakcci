@@ -9,6 +9,7 @@ public class BoardRequestDto {
     private String content;
 
     public Board toEntity(BoardRequestDto boardRequestDto) {
-        return new Board(boardRequestDto.getTitle(), boardRequestDto.getContent());
+        return new Board.Builder(boardRequestDto.getTitle(), boardRequestDto.getContent())
+                .build();
     }
 }
