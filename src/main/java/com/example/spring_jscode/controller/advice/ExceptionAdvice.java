@@ -1,4 +1,4 @@
-package com.example.spring_jscode.advice;
+package com.example.spring_jscode.controller.advice;
 
 import com.example.spring_jscode.dto.ErrorResponseDto;
 import org.springframework.http.ResponseEntity;

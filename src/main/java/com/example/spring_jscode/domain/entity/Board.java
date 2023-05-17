@@ -1,4 +1,4 @@
-package com.example.spring_jscode.entity;
+package com.example.spring_jscode.domain.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,13 +32,6 @@ public class Board {
     public Board(String title, String content) {
         this.title = title;
         this.content = content;
-    }
-
-    public static Board create(String title, String content) {
-        Board.isEmptyTitleAndContent(title, content);
-        Board.isBlankTitle(title);
-        Board.validateTitleAndContentLength(title, content);
-        return new Board(title, content);
     }
 
     public void update(String title, String content) {

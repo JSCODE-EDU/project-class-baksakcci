@@ -1,5 +1,6 @@
 package com.example.spring_jscode.dto;
 
+import com.example.spring_jscode.domain.entity.Board;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,8 +16,7 @@ public class BoardResponseDto {
     private String content;
     private LocalDateTime createAt;
 
-    // 매개변수 Board -> from, of => 변수명 수정
-    public static BoardResponseDto fromEntity(Long id, String title, String content, LocalDateTime createAt) {
-        return new BoardResponseDto(id, title, content, createAt);
+    public static BoardResponseDto fromEntity(Board board) {
+        return new BoardResponseDto(board.getId(), board.getTitle(), board.getContent(), board.getCreateAt());
     }
 }
