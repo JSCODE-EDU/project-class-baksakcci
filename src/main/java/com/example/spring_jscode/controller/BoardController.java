@@ -1,14 +1,10 @@
 package com.example.spring_jscode.controller;
 
 import com.example.spring_jscode.dto.BoardRequestDto;
-import com.example.spring_jscode.dto.BoardResponseDto;
-import com.example.spring_jscode.entity.Board;
 import com.example.spring_jscode.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,9 +20,9 @@ public class BoardController {
     }
 
     @GetMapping("")
-    public ResponseEntity findAll() {
+    public ResponseEntity findAll(@RequestParam("page") Integer pageSize) {
         return ResponseEntity.ok()
-                .body(boardService.findAll());
+                .body(boardService.findAll(pageSize));
     }
 
     @GetMapping("/{id}")
@@ -46,5 +42,12 @@ public class BoardController {
     public ResponseEntity deleteBoard(@PathVariable("id") Long id) {
         boardService.delete(id);
         return ResponseEntity.ok("성공적으로 제거했습니다.");
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity searchBoards(@RequestParam("keyword") String keyword,
+                                       @RequestParam("page") Integer pageSize) {
+        return ResponseEntity.ok()
+                .body(boardService.findBoardsBySearchingKeyword(keyword, pageSize));
     }
 }

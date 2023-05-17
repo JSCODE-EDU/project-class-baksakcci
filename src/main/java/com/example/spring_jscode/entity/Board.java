@@ -1,11 +1,10 @@
 package com.example.spring_jscode.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -21,6 +20,14 @@ public class Board {
     @Column(nullable = false)
     @Lob
     private String content;
+
+    @Column(name = "create_at")
+    private LocalDateTime createAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createAt = LocalDateTime.now();
+    }
 
     public Board(String title, String content) {
         this.title = title;
