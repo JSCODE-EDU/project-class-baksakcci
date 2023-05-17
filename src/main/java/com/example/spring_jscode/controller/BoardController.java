@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/boards")
@@ -14,13 +16,13 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping("")
-    public ResponseEntity createBoard(@RequestBody BoardRequestDto boardRequestDto) throws IllegalArgumentException{
+    public ResponseEntity createBoard(@RequestBody @Valid BoardRequestDto boardRequestDto) throws IllegalArgumentException{
         return ResponseEntity.status(201)
                 .body(boardService.create(boardRequestDto));
     }
 
     @GetMapping("")
-    public ResponseEntity findAll(@RequestParam("page") Integer pageSize) {
+    public ResponseEntity findAll(@RequestParam(value = "page", required = false) Integer pageSize) {
         return ResponseEntity.ok()
                 .body(boardService.findAll(pageSize));
     }
@@ -33,7 +35,7 @@ public class BoardController {
 
     @PatchMapping("/{id}")
     public ResponseEntity updateBoard(@PathVariable("id") Long id,
-                                      @RequestBody BoardRequestDto boardRequestDto) {
+                                      @RequestBody @Valid BoardRequestDto boardRequestDto) {
         return ResponseEntity.ok()
                 .body(boardService.update(id, boardRequestDto.getTitle(), boardRequestDto.getContent()));
     }
