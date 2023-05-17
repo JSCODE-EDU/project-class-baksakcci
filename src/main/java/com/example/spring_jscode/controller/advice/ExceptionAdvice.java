@@ -14,7 +14,7 @@ public class ExceptionAdvice {
     public ResponseEntity MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         ErrorResponseDto errorResponse = ErrorResponseDto.of("400"
                 ,e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
-        return ResponseEntity.status(404)
+        return ResponseEntity.status(400)
                 .body(errorResponse);
     }
 
