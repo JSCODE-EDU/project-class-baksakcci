@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -32,7 +33,8 @@ public class BoardService {
             BoardResponseDto boardResponseDto = BoardResponseDto.fromEntity(board);
             return boardResponseDto;
         });
-        return BoardPageResponseDto.toDtoFromBoardResponseDto(boardDtoPages, boardPage.getTotalPages(), boardPage.getNumber());
+        List<BoardResponseDto> boardDtoPagesContent = boardDtoPages.getContent();
+        return BoardPageResponseDto.toDtoFromBoardResponseDto(boardDtoPagesContent, boardPage.getTotalPages(), boardPage.getNumber());
     }
 
     @Transactional(readOnly = true)
@@ -59,6 +61,7 @@ public class BoardService {
             BoardResponseDto boardResponseDto = BoardResponseDto.fromEntity(board);
             return boardResponseDto;
         });
-        return BoardPageResponseDto.toDtoFromBoardResponseDto(boardDtoPages, boardPage.getTotalPages(), boardPage.getNumber());
+        List<BoardResponseDto> boardDtoPagesContent = boardDtoPages.getContent();
+        return BoardPageResponseDto.toDtoFromBoardResponseDto(boardDtoPagesContent, boardPage.getTotalPages(), boardPage.getNumber());
     }
 }
