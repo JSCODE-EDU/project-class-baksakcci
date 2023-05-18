@@ -16,7 +16,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping("")
-    public ResponseEntity createBoard(@RequestBody @Valid BoardRequestDto boardRequestDto) throws IllegalArgumentException{
+    public ResponseEntity createBoard(@RequestBody @Valid BoardRequestDto boardRequestDto) {
         return ResponseEntity.status(201)
                 .body(boardService.create(boardRequestDto));
     }
