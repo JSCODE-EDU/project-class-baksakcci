@@ -63,6 +63,7 @@ public class BoardService {
     }
 
     public void delete(Long id) {
+        boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("게시판을 찾을 수 없습니다."));
         boardRepository.deleteById(id);
     }
 
