@@ -29,10 +29,7 @@ public class BoardService {
     @Transactional(readOnly = true)
     public BoardPageResponseDto findAll(Integer pageSize) {
         Page<Board> boardPage = boardRepository.findAllByOrderByCreateAtDesc(PageRequest.of(pageSize, 100));
-        Page<BoardResponseDto> boardDtoPages = boardPage.map(board -> {
-            BoardResponseDto boardResponseDto = BoardResponseDto.fromEntity(board);
-            return boardResponseDto;
-        });
+        Page<BoardResponseDto> boardDtoPages = boardPage.map(BoardResponseDto::fromEntity);
         List<BoardResponseDto> boardDtoPagesContent = boardDtoPages.getContent();
         return BoardPageResponseDto.toDtoFromBoardResponseDto(boardDtoPagesContent, boardPage.getTotalPages(), boardPage.getNumber());
     }
@@ -57,10 +54,7 @@ public class BoardService {
     @Transactional(readOnly = true)
     public BoardPageResponseDto findBoardsBySearchingKeyword(String keyword, Integer pageSize) {
         Page<Board> boardPage = boardRepository.findBoardByTitleContainingOrderByCreateAtDesc(keyword, PageRequest.of(pageSize, 100));
-        Page<BoardResponseDto> boardDtoPages = boardPage.map(board -> {
-            BoardResponseDto boardResponseDto = BoardResponseDto.fromEntity(board);
-            return boardResponseDto;
-        });
+        Page<BoardResponseDto> boardDtoPages = boardPage.map(BoardResponseDto::fromEntity);
         List<BoardResponseDto> boardDtoPagesContent = boardDtoPages.getContent();
         return BoardPageResponseDto.toDtoFromBoardResponseDto(boardDtoPagesContent, boardPage.getTotalPages(), boardPage.getNumber());
     }
