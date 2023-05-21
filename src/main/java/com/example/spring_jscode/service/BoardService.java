@@ -50,9 +50,9 @@ public class BoardService {
                 .build();
     }
 
-    public BoardResponseDto update(Long id, String title, String content) {
+    public BoardResponseDto update(Long id, BoardRequestDto boardRequestDto) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("게시판을 찾을 수 없습니다."));
-        board.update(title, content);
+        board.update(boardRequestDto.getTitle(), boardRequestDto.getContent());
         boardRepository.save(board);
         return new BoardResponseDto.Builder()
                 .id(board.getId())

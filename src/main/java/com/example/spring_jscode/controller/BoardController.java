@@ -37,7 +37,7 @@ public class BoardController {
     public ResponseEntity updateBoard(@PathVariable("id") Long id,
                                       @RequestBody @Valid BoardRequestDto boardRequestDto) {
         return ResponseEntity.ok()
-                .body(boardService.update(id, boardRequestDto.getTitle(), boardRequestDto.getContent()));
+                .body(boardService.update(id, boardRequestDto));
     }
 
     @DeleteMapping("/{id}")
