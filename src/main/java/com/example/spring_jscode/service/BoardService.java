@@ -23,7 +23,12 @@ public class BoardService {
     public BoardResponseDto create(BoardRequestDto boardRequestDto) {
         Board board = boardRequestDto.toEntity(boardRequestDto);
         Board savedboard = boardRepository.save(board);
-        return BoardResponseDto.fromEntity(savedboard);
+        return new BoardResponseDto.Builder()
+                .id(savedboard.getId())
+                .title(savedboard.getTitle())
+                .content(savedboard.getContent())
+                .createAt(savedboard.getCreateAt())
+                .build();
     }
 
     @Transactional(readOnly = true)
@@ -37,14 +42,24 @@ public class BoardService {
     @Transactional(readOnly = true)
     public BoardResponseDto findById(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("게시판을 찾을 수 없습니다."));
-        return BoardResponseDto.fromEntity(board);
+        return new BoardResponseDto.Builder()
+                .id(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .createAt(board.getCreateAt())
+                .build();
     }
 
     public BoardResponseDto update(Long id, String title, String content) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("게시판을 찾을 수 없습니다."));
         board.update(title, content);
         boardRepository.save(board);
-        return BoardResponseDto.fromEntity(board);
+        return new BoardResponseDto.Builder()
+                .id(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .createAt(board.getCreateAt())
+                .build();
     }
 
     public void delete(Long id) {
