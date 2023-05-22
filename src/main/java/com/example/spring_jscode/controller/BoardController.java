@@ -49,6 +49,17 @@ public class BoardController {
     @GetMapping("/search")
     public ResponseEntity searchBoards(@RequestParam(value = "keyword", required = false) String keyword,
                                        @RequestParam(value = "page", required = false) Integer pageSize) {
+        if(keyword.isEmpty()) {
+            if(pageSize == null) {
+                return ResponseEntity.ok()
+                        .body(boardService.findAll(0));
+            }
+            return ResponseEntity.ok()
+                    .body(boardService.findAll(pageSize));
+        }
+        else if(pageSize == null) {
+            pageSize = 0;
+        }
         return ResponseEntity.ok()
                 .body(boardService.findBoardsBySearchingKeyword(keyword, pageSize));
     }
