@@ -1,6 +1,7 @@
 package com.example.spring_jscode.dto;
 
 import com.example.spring_jscode.domain.entity.Board;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Getter
+@Builder
 public class BoardRequestDto {
     @NotNull(message = "제목을 무조껀 입력해야 합니다.")
     @NotBlank(message = "제목에 공백이 올 수 없습니다.")
