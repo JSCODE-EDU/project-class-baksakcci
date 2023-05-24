@@ -1,0 +1,25 @@
+server:
+  port: 8081 # 실제 운영 서버와 동일한 환경에서 진행. 운영 서버와 구분하기 위해 port 다르게 설정
+
+spring:
+  datasource:
+    url: jdbc:mysql://~~ # AWS RDS URL
+    username:  # DB user
+    password:  # pw
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update # DB 전략 잘 생각해야 됨
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      use-new-id-generator-mappings: false
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
