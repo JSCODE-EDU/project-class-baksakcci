@@ -1,5 +1,6 @@
 package com.example.spring_jscode.controller.advice;
 
+import com.example.spring_jscode.exception.CustomException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,9 +18,9 @@ public class ExceptionAdvice {
 
     // Hibernate Exception
 
-    // Not Found Exception
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<ErrorResponse> NoSuchElementExceptionHandler(NoSuchElementException e) {
-        return ErrorResponse.toResponseEntity(ErrorCode.BOARD_NOT_FOUND);
+    // Custom Exception
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ErrorResponse> CustomExceptionHandler(CustomException e) {
+        return ErrorResponse.toResponseEntity(e.getErrorCode());
     }
 }
