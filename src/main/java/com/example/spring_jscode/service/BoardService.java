@@ -23,16 +23,18 @@ public class BoardService {
     public BoardResponseDto create(BoardRequestDto boardRequestDto) {
         Board board = boardRequestDto.toEntity(boardRequestDto);
         Board savedboard = boardRepository.save(board);
-        return BoardResponseDto.fromEntity(savedboard);
+        return new BoardResponseDto.Builder()
+                .id(savedboard.getId())
+                .title(savedboard.getTitle())
+                .content(savedboard.getContent())
+                .createAt(savedboard.getCreateAt())
+                .build();
     }
 
     @Transactional(readOnly = true)
     public BoardPageResponseDto findAll(Integer pageSize) {
         Page<Board> boardPage = boardRepository.findAllByOrderByCreateAtDesc(PageRequest.of(pageSize, 100));
-        Page<BoardResponseDto> boardDtoPages = boardPage.map(board -> {
-            BoardResponseDto boardResponseDto = BoardResponseDto.fromEntity(board);
-            return boardResponseDto;
-        });
+        Page<BoardResponseDto> boardDtoPages = boardPage.map(BoardResponseDto::fromEntity);
         List<BoardResponseDto> boardDtoPagesContent = boardDtoPages.getContent();
         return BoardPageResponseDto.toDtoFromBoardResponseDto(boardDtoPagesContent, boardPage.getTotalPages(), boardPage.getNumber());
     }
@@ -40,27 +42,35 @@ public class BoardService {
     @Transactional(readOnly = true)
     public BoardResponseDto findById(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("게시판을 찾을 수 없습니다."));
-        return BoardResponseDto.fromEntity(board);
+        return new BoardResponseDto.Builder()
+                .id(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .createAt(board.getCreateAt())
+                .build();
     }
 
-    public BoardResponseDto update(Long id, String title, String content) {
+    public BoardResponseDto update(Long id, BoardRequestDto boardRequestDto) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("게시판을 찾을 수 없습니다."));
-        board.update(title, content);
+        board.update(boardRequestDto.getTitle(), boardRequestDto.getContent());
         boardRepository.save(board);
-        return BoardResponseDto.fromEntity(board);
+        return new BoardResponseDto.Builder()
+                .id(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .createAt(board.getCreateAt())
+                .build();
     }
 
     public void delete(Long id) {
+        boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("게시판을 찾을 수 없습니다."));
         boardRepository.deleteById(id);
     }
 
     @Transactional(readOnly = true)
     public BoardPageResponseDto findBoardsBySearchingKeyword(String keyword, Integer pageSize) {
         Page<Board> boardPage = boardRepository.findBoardByTitleContainingOrderByCreateAtDesc(keyword, PageRequest.of(pageSize, 100));
-        Page<BoardResponseDto> boardDtoPages = boardPage.map(board -> {
-            BoardResponseDto boardResponseDto = BoardResponseDto.fromEntity(board);
-            return boardResponseDto;
-        });
+        Page<BoardResponseDto> boardDtoPages = boardPage.map(BoardResponseDto::fromEntity);
         List<BoardResponseDto> boardDtoPagesContent = boardDtoPages.getContent();
         return BoardPageResponseDto.toDtoFromBoardResponseDto(boardDtoPagesContent, boardPage.getTotalPages(), boardPage.getNumber());
     }
