@@ -9,18 +9,17 @@ import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class ExceptionAdvice {
+    // Spring Request Validation
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
-        ErrorResponse errorResponse = ErrorResponse.of("400"
-                ,e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
-        return ResponseEntity.status(400)
-                .body(errorResponse);
+    public ResponseEntity<ErrorResponse> MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+        return ErrorResponse.toResponseEntity(ErrorCode.INVALID_TITLE_CONTENT);
     }
 
+    // Hibernate Exception
+
+    // Not Found Exception
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity NoSuchElementExceptionHandler(NoSuchElementException e) {
-        ErrorResponse errorResponse = ErrorResponse.of("404", e.getLocalizedMessage());
-        return ResponseEntity.status(404)
-                .body(errorResponse);
+    public ResponseEntity<ErrorResponse> NoSuchElementExceptionHandler(NoSuchElementException e) {
+        return ErrorResponse.toResponseEntity(ErrorCode.BOARD_NOT_FOUND);
     }
 }
