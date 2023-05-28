@@ -1,16 +1,27 @@
 package com.example.spring_jscode.controller.advice;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import org.springframework.http.ResponseEntity;
+
+import java.time.LocalDateTime;
 
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 public class ErrorResponse {
-    private String status;
-    private String message;
+    private final int status;
+    private final String error;
+    private final String code;
+    private final String message;
+    private final LocalDateTime timestamp = LocalDateTime.now();
 
-    public static ErrorResponse of(String status, String message) {
-        return new ErrorResponse(status, message);
+    public static ResponseEntity<ErrorResponse> toResponseEntity(ErrorCode errorCode) {
+        return ResponseEntity.status(errorCode.getHttpStatus())
+                .body(ErrorResponse.builder()
+                        .status(errorCode.getHttpStatus().value())
+                        .error(errorCode.getHttpStatus().name())
+                        .code(errorCode.name())
+                        .message(errorCode.getMessage())
+                        .build());
     }
 }

@@ -1,10 +1,12 @@
 package com.example.spring_jscode.service;
 
+import com.example.spring_jscode.controller.advice.ErrorCode;
 import com.example.spring_jscode.dto.BoardPageResponseDto;
 import com.example.spring_jscode.dto.BoardRequestDto;
 import com.example.spring_jscode.dto.BoardResponseDto;
 import com.example.spring_jscode.domain.entity.Board;
 import com.example.spring_jscode.domain.repository.BoardRepository;
+import com.example.spring_jscode.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,7 +43,7 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public BoardResponseDto findById(Long id) {
-        Board board = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("게시판을 찾을 수 없습니다."));
+        Board board = boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
         return new BoardResponseDto.Builder()
                 .id(board.getId())
                 .title(board.getTitle())
@@ -51,7 +53,7 @@ public class BoardService {
     }
 
     public BoardResponseDto update(Long id, BoardRequestDto boardRequestDto) {
-        Board board = boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("게시판을 찾을 수 없습니다."));
+        Board board = boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
         board.update(boardRequestDto.getTitle(), boardRequestDto.getContent());
         boardRepository.save(board);
         return new BoardResponseDto.Builder()
@@ -63,7 +65,7 @@ public class BoardService {
     }
 
     public void delete(Long id) {
-        boardRepository.findById(id).orElseThrow(() -> new NoSuchElementException("게시판을 찾을 수 없습니다."));
+        Board board = boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
         boardRepository.deleteById(id);
     }
 

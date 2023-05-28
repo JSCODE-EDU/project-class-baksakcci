@@ -1,5 +1,6 @@
 package com.example.spring_jscode.controller.advice;
 
+import com.example.spring_jscode.exception.CustomException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,18 +10,17 @@ import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class ExceptionAdvice {
+    // Spring Request Validation
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
-        ErrorResponse errorResponse = ErrorResponse.of("400"
-                ,e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
-        return ResponseEntity.status(400)
-                .body(errorResponse);
+    public ResponseEntity<ErrorResponse> MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+        return ErrorResponse.toResponseEntity(ErrorCode.INVALID_TITLE_CONTENT);
     }
 
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity NoSuchElementExceptionHandler(NoSuchElementException e) {
-        ErrorResponse errorResponse = ErrorResponse.of("404", e.getLocalizedMessage());
-        return ResponseEntity.status(404)
-                .body(errorResponse);
+    // Hibernate Exception
+
+    // Custom Exception
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ErrorResponse> CustomExceptionHandler(CustomException e) {
+        return ErrorResponse.toResponseEntity(e.getErrorCode());
     }
 }
