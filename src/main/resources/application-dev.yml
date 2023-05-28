@@ -23,3 +23,6 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+
+jwt:
+  secret: mynameisbaksakcci.ee.ff
